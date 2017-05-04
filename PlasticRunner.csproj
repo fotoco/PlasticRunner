@@ -87,6 +87,7 @@
     <Compile Include="Assets\BlockControl.cs" />
     <Compile Include="Assets\BlockCreator.cs" />
     <Compile Include="Assets\CameraControl.cs" />
+    <Compile Include="Assets\LevelControl.cs" />
     <Compile Include="Assets\MapCreator.cs" />
     <Compile Include="Assets\PlayerControl.cs" />
   </ItemGroup>

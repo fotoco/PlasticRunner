@@ -2,6 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public class Block
+{
+    public enum Type
+    {
+        none = -1,
+        floor = 0,
+        hole,
+        num,
+    };
+}
+
+
 public class MapCreator : MonoBehaviour {
 
     public static float block_width = 1.0f;
@@ -18,13 +31,16 @@ public class MapCreator : MonoBehaviour {
     private PlayerControl player = null;
     private BlockCreator block_creator;
 
-
+    private LevelControl level_control = null;
 
 	// Use this for initialization
 	void Start () {
         this.player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
         this.last_block.is_created = false;
         this.block_creator = this.gameObject.GetComponent<BlockCreator>();
+
+        this.level_control = new LevelControl();
+        this.level_control.initialize();
 	}
 	
 	// Update is called once per frame
@@ -55,7 +71,17 @@ public class MapCreator : MonoBehaviour {
         }
 
         block_position.x += block_width;
-        this.block_creator.createBlock(block_position);
+
+        //this.block_creator.createBlock(block_position);
+        this.level_control.update();
+
+        block_position.y = level_control.current_block.height * block_height;
+        LevelControl.CreationInfo current = this.level_control.current_block;
+
+        if(current.block_type == Block.Type.floor)
+        {
+            this.block_creator.createBlock(block_position);
+        }
 
         this.last_block.position = block_position;
         this.last_block.is_created = true;
